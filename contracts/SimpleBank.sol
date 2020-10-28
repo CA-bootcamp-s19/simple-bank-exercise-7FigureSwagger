@@ -71,7 +71,10 @@ contract SimpleBank {
     /// @return The balance of the user
     // A SPECIAL KEYWORD prevents function from editing state variables;
     // allows function to run locally/off blockchain
-    function getBalance() public returns (uint) {
+    function getBalance() 
+        public
+        view
+        returns (uint) {
         /* Get the balance of the sender of this transaction */
         return owner.balance;
     }
@@ -79,7 +82,13 @@ contract SimpleBank {
     /// @notice Enroll a customer with the bank
     /// @return The users enrolled status
     // Emit the appropriate event
-    function enroll() public returns (bool){
+    function enroll() 
+        public 
+        returns (bool)
+    {
+        enrolled[msg.sender] = true;
+        emit LogEnrolled(msg.sender);
+        return(enrolled[msg.sender]);
     }
 
     /// @notice Deposit ether into bank
@@ -88,7 +97,11 @@ contract SimpleBank {
     // Use the appropriate global variables to get the transaction sender and value
     // Emit the appropriate event    
     // Users should be enrolled before they can make deposits
-    function deposit() public returns (uint) {
+    function deposit() 
+        public 
+        payable 
+        returns (uint) 
+    {
         /* Add the amount to the user's balance, call the event associated with a deposit,
           then return the balance of the user */
     }
